@@ -11,6 +11,7 @@ typedef unsigned long long timestamp_t;
 //! Read light field and check for empty sub-aperture images
 int load_LF(
     char* name
+,   char* sub_img_name
 ,   std::vector<std::vector<float> > &LF
 ,   std::vector<unsigned> &LF_SAI_mask
 ,   const unsigned awidth
@@ -236,6 +237,7 @@ void ind_initialize(
     int argc
 ,   char **argv
 ,   char **LF_input_name
+,   char **sub_img_name
 ,   bool     &gt_exists
 ,   unsigned &awidth
 ,   unsigned &aheight
@@ -275,6 +277,7 @@ int get_params_BM3D(
     int argc
 ,   char **argv
 ,   char **LF_input_name
+,   char **sub_img_name
 ,   bool     &gt_exists
 ,   unsigned &awidth
 ,   unsigned &aheight

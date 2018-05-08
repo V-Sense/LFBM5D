@@ -31,7 +31,7 @@ The source code can be compiled on Unix/Linux/Mac OS using the make program. For
 
 This code requires the libpng library and the fftw library (e.g. on Ubuntu run `apt-get install libpng-dev` and `apt-get install libfftw3-dev`, on Mac OS run `brew install libpng` and `brew install fftw`).
 
-Furthermore we highly recommend using the [Open Multi-Processing multithread parallelization](http://openmp.org/) to speed up the processing time. Simply add OMP=1 after the make command to use OprenMP.
+Furthermore we highly recommend using the [Open Multi-Processing multithread parallelization](http://openmp.org/) to speed up the processing time. Simply add OMP=1 after the make command to use OpenMP.
 
 Instructions to compile the code:
 - Download/clone the repository and go to the corresponding directory.

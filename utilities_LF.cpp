@@ -67,6 +67,7 @@
   **/
 int load_LF(
     char* name
+,   char* sub_img_name
 ,   vector<vector<float> > &LF
 ,   vector<unsigned> &LF_SAI_mask
 ,   const unsigned awidth
@@ -165,6 +166,117 @@ int load_LF(
         return EXIT_FAILURE;
     }
 }
+
+//  /**
+//   * @brief Load light field, check for empty SAIs
+//   *
+//   * @param name : path + name of the directory containing all sub-aperture images;
+//   * @param LF : 2D vector which will contain the light field : all sub-aperture images concatenated in the first vector, R, G and B concatenated in the second one;
+//   * @param LF_SAI_mask : indicate if sub-aperture image is empty (0) or not (1);
+//   * @param awidth, aheight, width, height, chnls : size of the light field.
+//   *
+//   * @return EXIT_SUCCESS if the light field has been loaded, EXIT_FAILURE otherwise
+//   **/
+// int load_LF(
+//     char* name
+// ,   vector<vector<float> > &LF
+// ,   vector<unsigned> &LF_SAI_mask
+// ,   const unsigned awidth
+// ,   const unsigned aheight
+// ,   unsigned * width
+// ,   unsigned * height
+// ,   unsigned * chnls
+// ){
+//     //! open directory
+//     DIR *dp;
+//     struct dirent *dirp;
+//     if((dp = opendir(name)) == NULL)
+//     {
+//         cout << "error :: " << name << " not found or not a correct directory" << endl;
+//         return EXIT_FAILURE;
+//     }
+
+//     //! find all image files in directory
+//     vector<string> img_files;
+//     unsigned st = 0;
+//     while ((dirp = readdir(dp)) != NULL)
+//     {
+//         if(strstr(dirp->d_name, ".png") != NULL)
+//             img_files.push_back(string(name)+"/"+string(dirp->d_name));
+//     }
+//     closedir(dp);
+
+//     //! read all image files in directory
+//     if(img_files.size())
+//     {
+//         //! check LF size
+//         if((awidth*aheight) != img_files.size())
+//         {
+//             cout << "error :: expected light field angular size of " << aheight << "x" <<  awidth <<  " = " << (awidth*aheight) << " but got " << img_files.size() << " instead." << endl;
+//             return EXIT_FAILURE;
+//         }
+
+//         //! allocate memory for SAI mask
+//         LF_SAI_mask.assign(awidth*aheight, (unsigned) 0);
+
+//         //! loop on sub-aperture images
+//         cout << endl;
+//         #pragma omp parallel for
+//         for(unsigned st = 0; st < img_files.size(); st++)
+//         {
+//             //! read input image
+//             cout << "\rRead input image " << img_files[st] << flush; 
+//             size_t h, w, c;
+//             float *tmp = NULL;
+//             tmp = read_png_f32(img_files[st].c_str(), &w, &h, &c);
+//             if (!tmp)
+//             {
+//                 cout << endl << "error :: " << img_files[st] << " not found or not a correct png image" << endl;
+//             }
+
+//             //! test if image is really a color image and exclude the alpha channel
+//             if (c > 2)
+//             {
+//                 unsigned k = 0;
+//                 float acc = 0.0f;
+//                 while (k < w * h && tmp[k] == tmp[w * h + k] && tmp[k] == tmp[2 * w * h + k])
+//                     acc += tmp[k] + tmp[w * h + k] + tmp[2 * w * h + k++];
+//                 c = (k == w * h && acc > 0.0f ? 1 : 3);
+//             }
+
+//             //! Initializations (once)
+//             if(st==0)
+//             {
+//                 *width  = w;
+//                 *height = h;
+//                 *chnls  = c;
+//             }
+//             LF[st].resize(w * h * c); // angular dimension are allocated before calling this 
+            
+//             //! test if image is not empty
+//             for (unsigned k = 0; k < w * h * c; k++)
+//             {
+//                 LF[st][k] = tmp[k];
+//                 if(tmp[k] && LF_SAI_mask[st]==0)
+//                     LF_SAI_mask[st] = 1;
+//             }
+//         }
+//         //! Display LF informations
+//         cout << endl;
+//         cout << " Light field size :"  << endl;
+//         cout << " - awidth         = " << awidth  << endl;
+//         cout << " - aheight        = " << aheight << endl;
+//         cout << " - width          = " << *width  << endl;
+//         cout << " - height         = " << *height << endl;
+//         cout << " - nb of channels = " << *chnls  << endl;
+//         return EXIT_SUCCESS;
+//     }
+//     else
+//     {
+//         cout << "error :: " << name << " does not contain any image (.png) file" << endl;
+//         return EXIT_FAILURE;
+//     }
+// }
 
 /**
  * @brief write light field
@@ -1122,6 +1234,7 @@ void ind_initialize(
     int argc
 ,   char **argv
 ,   char **LF_input_name
+,   char **sub_img_name
 ,   bool     &gt_exists
 ,   unsigned &awidth
 ,   unsigned &aheight
@@ -1157,9 +1270,9 @@ void ind_initialize(
 ,   char **psnr_file_name
 ){
      //! Check if there is the right call for the algorithm
-	if (argc < 34)
+	if (argc < 35)
 	{
-		cout << "usage: LFBM5Ddenoising LF_dir LF_awidth LF_aheight asw_size_ht asw_size_wien ang_major sigma lambda \
+		cout << "usage: LFBM5Ddenoising LF_dir SAI_name LF_awidth LF_aheight asw_size_ht asw_size_wien ang_major sigma lambda \
                  LF_dir_noisy LF_dir_basic LF_dir_denoised LF_dir_difference \
                  NHard nSimHard nDispHard khard pHard tau_2d_hard tau_4d_hard tau_5d_hard useSD_hard \
                  NWien nSimWien nDispWien kWien pWien tau_2d_wien tau_4d_wien tau_5d_wien useSD_wien \
@@ -1169,6 +1282,7 @@ void ind_initialize(
 
     unsigned par_idx = 0;
     *LF_input_name = argv[++par_idx];
+    *sub_img_name = argv[++par_idx];
     gt_exists    = !(strcmp(*LF_input_name, "none" ) == 0);
     awidth       = atoi(argv[++par_idx]);
     aheight      = atoi(argv[++par_idx]);
@@ -1326,6 +1440,7 @@ void ind_initialize(
     int argc
 ,   char **argv
 ,   char **LF_input_name
+,   char **sub_img_name
 ,   bool     &gt_exists
 ,   unsigned &awidth
 ,   unsigned &aheight
@@ -1355,9 +1470,9 @@ void ind_initialize(
 ,   char **psnr_file_name
 ){
      //! Check if there is the right call for the algorithm
-	if (argc < 25)
+	if (argc < 26)
 	{
-		cout << "usage: LFBM3Ddenoising LF_dir LF_awidth LF_aheight asw_size_ht asw_size_wien ang_major sigma lambda \
+		cout << "usage: LFBM3Ddenoising LF_dir SAI_name LF_awidth LF_aheight asw_size_ht asw_size_wien ang_major sigma lambda \
                  LF_dir_noisy LF_dir_basic LF_dir_denoised LF_dir_difference \
                  NHard nHard kHard pHard tau_2d_hard \
                  NWien nWien kWien pWien tau_2d_wien \
@@ -1367,6 +1482,7 @@ void ind_initialize(
 
     unsigned par_idx = 0;
     *LF_input_name = argv[++par_idx];
+    *sub_img_name = argv[++par_idx];
     gt_exists    = !(strcmp(*LF_input_name, "none" ) == 0);
     awidth       = atoi(argv[++par_idx]);
     aheight      = atoi(argv[++par_idx]);

@@ -60,7 +60,7 @@ int main(int argc, char **argv)
     cout << "*********************************************************************************************************************" << endl;
 
     //! Define and get params from command Line
-    char *LF_input_name, *LF_noisy_name, *LF_basic_name, *LF_denoised_name, *LF_diff_name;
+    char *LF_input_name, *LF_noisy_name, *LF_basic_name, *LF_denoised_name, *LF_diff_name, *sub_img_name;
     bool gt_exists;
     unsigned awidth, aheight, anHard, anWien, ang_major;
     float fSigma, lambdaHard3D;
@@ -73,7 +73,7 @@ int main(int argc, char **argv)
     unsigned nb_threads;
     char* psnr_file_name;
 
-    if(get_params_BM3D(argc, argv, &LF_input_name, gt_exists, awidth, aheight, anHard, anWien, ang_major, fSigma, lambdaHard3D, &LF_noisy_name, &LF_basic_name, &LF_denoised_name, &LF_diff_name,
+    if(get_params_BM3D(argc, argv, &LF_input_name, &sub_img_name, gt_exists, awidth, aheight, anHard, anWien, ang_major, fSigma, lambdaHard3D, &LF_noisy_name, &LF_basic_name, &LF_denoised_name, &LF_diff_name,
                   NHard, nHard, kHard, pHard, tau_2D_hard, useSD_1,
                   NWien, nWien, kWien, pWien, tau_2D_wien, useSD_2,
                   color_space, nb_threads, &psnr_file_name) != EXIT_SUCCESS)
@@ -105,7 +105,7 @@ int main(int argc, char **argv)
     {
         LF.resize(awh);
         timestamp_t start_load = get_timestamp();
-        if(load_LF(LF_input_name, LF, LF_SAI_mask, awidth, aheight, &width, &height, &chnls) != EXIT_SUCCESS)
+        if(load_LF(LF_input_name, sub_img_name, LF, LF_SAI_mask, awidth, aheight, &width, &height, &chnls) != EXIT_SUCCESS)
             return EXIT_FAILURE;
         timestamp_t end_load = get_timestamp();
         float load_elapsed_secs = float(end_load-start_load) / 1000000.0f;
@@ -140,7 +140,7 @@ int main(int argc, char **argv)
     {
         LF_noisy.resize(awh);
         timestamp_t start_load_noisy = get_timestamp();
-        if(load_LF(LF_noisy_name, LF_noisy, LF_SAI_mask, awidth, aheight, &width, &height, &chnls) != EXIT_SUCCESS)
+        if(load_LF(LF_noisy_name, sub_img_name, LF_noisy, LF_SAI_mask, awidth, aheight, &width, &height, &chnls) != EXIT_SUCCESS)
             return EXIT_FAILURE;
         timestamp_t end_load_noisy = get_timestamp();
         float load_noisy_elapsed_secs = float(end_load_noisy-start_load_noisy) / 1000000.0f;
