@@ -70,6 +70,7 @@ int load_LF(
 ,   char* sub_img_name
 ,   vector<vector<float> > &LF
 ,   vector<unsigned> &LF_SAI_mask
+,   const unsigned ang_major
 ,   const unsigned awidth
 ,   const unsigned aheight
 ,   unsigned * width
@@ -84,43 +85,31 @@ int load_LF(
         cout << "error :: " << name << " not found or not a correct directory" << endl;
         return EXIT_FAILURE;
     }
-
-    //! find all image files in directory
-    vector<string> img_files;
-    unsigned st = 0;
-    while ((dirp = readdir(dp)) != NULL)
-    {
-        if(strstr(dirp->d_name, ".png") != NULL)
-            img_files.push_back(string(name)+"/"+string(dirp->d_name));
-    }
     closedir(dp);
 
-    //! read all image files in directory
-    if(img_files.size())
+    //! allocate memory for SAI mask
+    LF_SAI_mask.assign(awidth*aheight, (unsigned) 0);
+
+    //! loop on sub-aperture images
+    cout << endl;
+    #pragma omp parallel for
+    for(unsigned s = 0; s < aheight; s++)
     {
-        //! check LF size
-        if((awidth*aheight) != img_files.size())
-        {
-            cout << "error :: expected light field angular size of " << aheight << "x" <<  awidth <<  " = " << (awidth*aheight) << " but got " << img_files.size() << " instead." << endl;
-            return EXIT_FAILURE;
-        }
-
-        //! allocate memory for SAI mask
-        LF_SAI_mask.assign(awidth*aheight, (unsigned) 0);
-
-        //! loop on sub-aperture images
-        cout << endl;
-        #pragma omp parallel for
-        for(unsigned st = 0; st < img_files.size(); st++)
+        stringstream strs;
+        strs << setw(2) << setfill('0') << (s+1); //TODO: add index shift as input parameter
+        for(unsigned t = 0; t < awidth; t++)
         {
             //! read input image
-            cout << "\rRead input image " << img_files[st] << flush; 
+            stringstream strt;
+            strt << setw(2) << setfill('0') << (t+1);
+            string img_name = string(name) + "/" + string(sub_img_name) + "_" + strs.str() + "_" +  strt.str() + ".png";
+            cout << "\rRead input image " << img_name << flush; 
             size_t h, w, c;
             float *tmp = NULL;
-            tmp = read_png_f32(img_files[st].c_str(), &w, &h, &c);
+            tmp = read_png_f32(img_name.c_str(), &w, &h, &c);
             if (!tmp)
             {
-                cout << endl << "error :: " << img_files[st] << " not found or not a correct png image" << endl;
+                cout << endl << "error :: " << img_name << " not found or not a correct png image" << endl;
             }
 
             //! test if image is really a color image and exclude the alpha channel
@@ -134,12 +123,19 @@ int load_LF(
             }
 
             //! Initializations (once)
-            if(st==0)
+            if(s==0 && t==0)
             {
                 *width  = w;
                 *height = h;
                 *chnls  = c;
             }
+
+            unsigned st;
+            if(ang_major == ROWMAJOR)
+                st = s * awidth + t;
+            else if(ang_major==COLMAJOR)
+                st = s + t * aheight;
+
             LF[st].resize(w * h * c); // angular dimension are allocated before calling this 
             
             //! test if image is not empty
@@ -149,22 +145,18 @@ int load_LF(
                 if(tmp[k] && LF_SAI_mask[st]==0)
                     LF_SAI_mask[st] = 1;
             }
+            st++;
         }
-        //! Display LF informations
-        cout << endl;
-        cout << " Light field size :"  << endl;
-        cout << " - awidth         = " << awidth  << endl;
-        cout << " - aheight        = " << aheight << endl;
-        cout << " - width          = " << *width  << endl;
-        cout << " - height         = " << *height << endl;
-        cout << " - nb of channels = " << *chnls  << endl;
-        return EXIT_SUCCESS;
     }
-    else
-    {
-        cout << "error :: " << name << " does not contain any image (.png) file" << endl;
-        return EXIT_FAILURE;
-    }
+    //! Display LF informations
+    cout << endl;
+    cout << " Light field size :"  << endl;
+    cout << " - awidth         = " << awidth  << endl;
+    cout << " - aheight        = " << aheight << endl;
+    cout << " - width          = " << *width  << endl;
+    cout << " - height         = " << *height << endl;
+    cout << " - nb of channels = " << *chnls  << endl;
+    return EXIT_SUCCESS;
 }
 
 //  /**

@@ -14,6 +14,7 @@ int load_LF(
 ,   char* sub_img_name
 ,   std::vector<std::vector<float> > &LF
 ,   std::vector<unsigned> &LF_SAI_mask
+,   const unsigned ang_major
 ,   const unsigned awidth
 ,   const unsigned aheight
 ,   unsigned * width
