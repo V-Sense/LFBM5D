@@ -130,7 +130,7 @@ int main(int argc, char **argv)
         //! Save light field
         cout << endl << "Save noisy light field..." << endl;
         timestamp_t start_save = get_timestamp();
-        if (save_LF(LF_noisy_name, "SAI", LF_noisy, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, width, height, chnls) != EXIT_SUCCESS)
+        if (save_LF(LF_noisy_name, sub_img_name, LF_noisy, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, width, height, chnls) != EXIT_SUCCESS)
             return EXIT_FAILURE;
         timestamp_t end_save = get_timestamp();
         float save_elapsed_secs = float(end_save-start_save) / 1000000.0f;
@@ -204,7 +204,7 @@ int main(int argc, char **argv)
     //! Save light field
 	cout << endl << "Save basic light field..." << endl;
     timestamp_t start_save = get_timestamp();
-	if (save_LF(LF_basic_name, "SAI", LF_basic, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, width, height, chnls) != EXIT_SUCCESS)
+	if (save_LF(LF_basic_name, sub_img_name, LF_basic, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, width, height, chnls) != EXIT_SUCCESS)
         return EXIT_FAILURE;
     timestamp_t end_save = get_timestamp();
     float save_elapsed_secs = float(end_save-start_save) / 1000000.0f;
@@ -241,7 +241,7 @@ int main(int argc, char **argv)
     //! Save light field
     cout << endl << "Save denoised light field..." << endl;
     start_save = get_timestamp();
-	if (save_LF(LF_denoised_name, "SAI", LF_denoised, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, width, height, chnls) != EXIT_SUCCESS)
+	if (save_LF(LF_denoised_name, sub_img_name, LF_denoised, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, width, height, chnls) != EXIT_SUCCESS)
         return EXIT_FAILURE;
     end_save = get_timestamp();
     save_elapsed_secs = float(end_save-start_save) / 1000000.0f;
@@ -251,7 +251,7 @@ int main(int argc, char **argv)
     {
         cout << endl << "Save diff light field..." << endl;
         start_save = get_timestamp();
-        if (save_LF(LF_diff_name, "SAI", LF_diff, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, width, height, chnls) != EXIT_SUCCESS)
+        if (save_LF(LF_diff_name, sub_img_name, LF_diff, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, width, height, chnls) != EXIT_SUCCESS)
             return EXIT_FAILURE;
         end_save = get_timestamp();
         save_elapsed_secs = float(end_save-start_save) / 1000000.0f;
