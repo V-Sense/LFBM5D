@@ -17,6 +17,8 @@ int load_LF(
 ,   const unsigned ang_major
 ,   const unsigned awidth
 ,   const unsigned aheight
+,   const unsigned s_start
+,   const unsigned t_start
 ,   unsigned * width
 ,   unsigned * height
 ,   unsigned * chnls
@@ -31,6 +33,8 @@ int save_LF(
 ,   const unsigned ang_major
 ,   const unsigned awidth
 ,   const unsigned aheight
+,   const unsigned s_start
+,   const unsigned t_start
 ,   const unsigned width
 ,   const unsigned height
 ,   const unsigned chnls
@@ -242,6 +246,8 @@ void ind_initialize(
 ,   bool     &gt_exists
 ,   unsigned &awidth
 ,   unsigned &aheight
+,   unsigned &s_start
+,   unsigned &t_start
 ,   unsigned &anHard
 ,   unsigned &anWien
 ,   unsigned &ang_major
@@ -282,6 +288,8 @@ int get_params_BM3D(
 ,   bool     &gt_exists
 ,   unsigned &awidth
 ,   unsigned &aheight
+,   unsigned &s_start
+,   unsigned &t_start
 ,   unsigned &anHard
 ,   unsigned &anWien
 ,   unsigned &ang_major

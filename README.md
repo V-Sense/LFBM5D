@@ -45,8 +45,8 @@ For testing purposes, we provide in folder ./testing/sourceLF a (very) small exa
 First run: `mkdir ./testing/noisyLF ./testing/basicLF ./testing/denoisedLF ./testing/diffLF`
 
 Then run one of the following command to test the executable of your choice:
-- `./LFBM5Ddenoising ./testing/sourceLF 3 3 1 1 row 25 2.7 ./testing/noisyLF ./testing/basicLF ./testing/denoisedLF ./testing/diffLF 8 18 6 16 4 id sadct haar 0 16 18 6 8 4 dct sadct haar 0 opp 0 ./testing/outputMeasuresLFBM5D.txt`
-- `./LFBM3Ddenoising ./testing/sourceLF 3 3 1 1 row 25 2.7 ./testing/noisyLF ./testing/basicLF ./testing/denoisedLF ./testing/diffLF 16 16 8 3 bior 0 32 16 8 3 dct 0 opp 8 ./testing/outputMeasuresLFBM3D.txt`
+- `./LFBM5Ddenoising ./testing/sourceLF SAI 3 3 1 1 1 1 row 25 2.7 ./testing/noisyLF ./testing/basicLF ./testing/denoisedLF ./testing/diffLF 8 18 6 16 4 id sadct haar 0 16 18 6 8 4 dct sadct haar 0 opp 0 ./testing/outputMeasuresLFBM5D.txt`
+- `./LFBM3Ddenoising ./testing/sourceLF SAI 3 3 1 1 1 1 row 25 2.7 ./testing/noisyLF ./testing/basicLF ./testing/denoisedLF ./testing/diffLF 16 16 8 3 bior 0 32 16 8 3 dct 0 opp 8 ./testing/outputMeasuresLFBM3D.txt`
 
 ## Command line examples
 

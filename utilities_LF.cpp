@@ -73,6 +73,8 @@ int load_LF(
 ,   const unsigned ang_major
 ,   const unsigned awidth
 ,   const unsigned aheight
+,   const unsigned s_start
+,   const unsigned t_start
 ,   unsigned * width
 ,   unsigned * height
 ,   unsigned * chnls
@@ -96,12 +98,12 @@ int load_LF(
     for(unsigned s = 0; s < aheight; s++)
     {
         stringstream strs;
-        strs << setw(2) << setfill('0') << (s+1); //TODO: add index shift as input parameter
+        strs << setw(2) << setfill('0') << (s + s_start);
         for(unsigned t = 0; t < awidth; t++)
         {
             //! read input image
             stringstream strt;
-            strt << setw(2) << setfill('0') << (t+1);
+            strt << setw(2) << setfill('0') << (t + t_start);
             string img_name = string(name) + "/" + string(sub_img_name) + "_" + strs.str() + "_" +  strt.str() + ".png";
             cout << "\rRead input image " << img_name << flush; 
             size_t h, w, c;
@@ -290,6 +292,8 @@ int save_LF(
 ,   const unsigned ang_major
 ,   const unsigned awidth
 ,   const unsigned aheight
+,   const unsigned s_start
+,   const unsigned t_start
 ,   const unsigned width
 ,   const unsigned height
 ,   const unsigned chnls
@@ -318,8 +322,8 @@ int save_LF(
             
             string tmp_name(LF_name);
             ostringstream strs, strt;
-            strs << setfill('0') << setw(2) << s;
-            strt << setfill('0') << setw(2) << t;
+            strs << setfill('0') << setw(2) << (s + s_start);
+            strt << setfill('0') << setw(2) << (t + t_start);
             tmp_name = tmp_name + "/" + sub_img_name + "_" + strs.str() + "_" + strt.str() + ".png";
             cout << "\rWrite image " << tmp_name << flush;
             const char * img_name = tmp_name.c_str();
@@ -1199,9 +1203,9 @@ void ind_initialize(
 /**
  * @brief For convenience: Initialize parameters from command line for LFBM5D.
  *
- * @param LF_input_name: input light field directory;
+ * @param LF_input_name, sub_img_name: input light field directory and sub-aperture image name;
  * @param gt_exists: flag indicating if ground truth light field exists for objective measures computation;
- * @param awidth, aheight, ang_major: light field angular size and ordering;
+ * @param awidth, aheight, s_start, t_start, ang_major: light field angular size, angular index start, and ordering;
  * @param anHard, anWien: half size of the angular search window for hard thresholding and Wiener step respectively;
  * @param fSigma: assumed noise level;
  * @param lambdaHard5D: hard thresholding threshold;
@@ -1230,6 +1234,8 @@ void ind_initialize(
 ,   bool     &gt_exists
 ,   unsigned &awidth
 ,   unsigned &aheight
+,   unsigned &s_start
+,   unsigned &t_start
 ,   unsigned &anHard
 ,   unsigned &anWien
 ,   unsigned &ang_major
@@ -1262,9 +1268,9 @@ void ind_initialize(
 ,   char **psnr_file_name
 ){
      //! Check if there is the right call for the algorithm
-	if (argc < 35)
+	if (argc < 37)
 	{
-		cout << "usage: LFBM5Ddenoising LF_dir SAI_name LF_awidth LF_aheight asw_size_ht asw_size_wien ang_major sigma lambda \
+		cout << "usage: LFBM5Ddenoising LF_dir SAI_name LF_awidth LF_aheight s_idx_start t_idx_start asw_size_ht asw_size_wien ang_major sigma lambda \
                  LF_dir_noisy LF_dir_basic LF_dir_denoised LF_dir_difference \
                  NHard nSimHard nDispHard khard pHard tau_2d_hard tau_4d_hard tau_5d_hard useSD_hard \
                  NWien nSimWien nDispWien kWien pWien tau_2d_wien tau_4d_wien tau_5d_wien useSD_wien \
@@ -1278,6 +1284,8 @@ void ind_initialize(
     gt_exists    = !(strcmp(*LF_input_name, "none" ) == 0);
     awidth       = atoi(argv[++par_idx]);
     aheight      = atoi(argv[++par_idx]);
+    s_start      = atoi(argv[++par_idx]);
+    t_start      = atoi(argv[++par_idx]);
     anHard       = atoi(argv[++par_idx]);
     anWien       = atoi(argv[++par_idx]);
     ang_major    = (strcmp(argv[++par_idx], "row") == 0 ? ROWMAJOR :
@@ -1404,7 +1412,7 @@ void ind_initialize(
  /**
  * @brief For convenience: Initialize parameters from command line for LFBM3D.
  *
- * @param LF_input_name: input light field directory;
+ * @param LF_input_name, sub_img_name: input light field directory and sub-aperture image name;
  * @param gt_exists: flag indicating if ground truth light field exists for objective measures computation;
  * @param awidth, aheight, ang_major: light field angular size and ordering;
  * @param anHard, anWien: half size of the angular search window for hard thresholding and Wiener step respectively;
@@ -1436,6 +1444,8 @@ void ind_initialize(
 ,   bool     &gt_exists
 ,   unsigned &awidth
 ,   unsigned &aheight
+,   unsigned &s_start
+,   unsigned &t_start
 ,   unsigned &anHard
 ,   unsigned &anWien
 ,   unsigned &ang_major
@@ -1464,7 +1474,7 @@ void ind_initialize(
      //! Check if there is the right call for the algorithm
 	if (argc < 26)
 	{
-		cout << "usage: LFBM3Ddenoising LF_dir SAI_name LF_awidth LF_aheight asw_size_ht asw_size_wien ang_major sigma lambda \
+		cout << "usage: LFBM3Ddenoising LF_dir SAI_name LF_awidth LF_aheight s_idx_start t_idx_start asw_size_ht asw_size_wien ang_major sigma lambda \
                  LF_dir_noisy LF_dir_basic LF_dir_denoised LF_dir_difference \
                  NHard nHard kHard pHard tau_2d_hard \
                  NWien nWien kWien pWien tau_2d_wien \
@@ -1478,6 +1488,8 @@ void ind_initialize(
     gt_exists    = !(strcmp(*LF_input_name, "none" ) == 0);
     awidth       = atoi(argv[++par_idx]);
     aheight      = atoi(argv[++par_idx]);
+    s_start      = atoi(argv[++par_idx]);
+    t_start      = atoi(argv[++par_idx]);
     anHard       = atoi(argv[++par_idx]);
     anWien       = atoi(argv[++par_idx]);
     ang_major    = (strcmp(argv[++par_idx], "row") == 0 ? ROWMAJOR :
