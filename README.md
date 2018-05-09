@@ -14,7 +14,7 @@ In addition to the LFBM5D filter, this code provides an implementation of light 
 
 ## Light field conventions
 
-The input light field should be in the form of a collection of PNG sub-aperture images located in a common folder. The naming convention for the sub-aperture images must be of the form <SAI_name>__<s_idx>_<t_idx>.png, where <SAI_name> is the common name for all images (e.g. 'SAI' as in our testing example, 'Img', 'Cam'...), and <s_idx> and <t_idx> correspond to the angular indexes of the light field images. If the <s_idx> corresponds to the row indexes of your light field, the light field is considered to be ordered row-wise, and the parameter angMajor should be set to 'row'. Otherwise, the light field is considered to be ordered column-wise, and the parameter angMajor should be set to 'col'.
+The input light field should be in the form of a collection of PNG sub-aperture images located in a common folder. The naming convention for the sub-aperture images must be of the form <SAI_name>\_<s_idx>\_<t_idx>.png, where <SAI_name> is the common name for all images (e.g. 'SAI' as in our testing example, 'Img', 'Cam'...), and <s_idx> and <t_idx> correspond to the angular indexes of the light field images. If the <s_idx> corresponds to the row indexes of your light field, the light field is considered to be ordered row-wise, and the parameter angMajor should be set to 'row'. Otherwise, the light field is considered to be ordered column-wise, and the parameter angMajor should be set to 'col'.
 See the next sections for some examples.
 
 Futhermore, the following conventions/notations are adopted in the code:
