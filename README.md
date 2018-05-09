@@ -14,13 +14,14 @@ In addition to the LFBM5D filter, this code provides an implementation of light 
 
 ## Light field conventions
 
-The input light field should be in the form of a collection of PNG sub-aperture images located in a common folder. The scanning order of the images over the 2D angular dimensions needs to be a Z-scan, either row-wise or column-wise (which is specified by a a parameter in the command line). Make sure the scanning order is respected when you type the 'ls' command in the light field folder.
+The input light field should be in the form of a collection of PNG sub-aperture images located in a common folder. The naming convention for the sub-aperture images must be of the form <SAI_name>_<s_idx>_<t_idx>.png, where <SAI_Name> is the common name for all images (e.g. 'SAI' as in our testing example, 'Img', 'Cam'...), and <s_idx> and <t_idx> correspond to the angular indexes of the light field images. If the <s_idx> corresponds to the row indexes of your light field, the light field is considered to be ordered row-wise, and the parameter angMajor should be set to 'row'. Otherwise, the light field is considered to be ordered column-wise, and the parameter angMajor should be set to 'col'.
+See the next sections for some examples.
 
 Futhermore, the following conventions/notations are adopted in the code:
 - Angular size will be denoted awidth and aheight (and associated derivations) for angular width and angular height (noted $n_a$ in [1]);
 - In general, prefix 'a' before a variable stands for angular;
 - Indexes for angular dimensions will be denoted s and t (and associated derivations);
-- Image size will be denoted as usual width and heigth (and associated derivations);
+- Image size will be denoted as usual width and height (and associated derivations);
 - Indexes for image dimensions will be denoted i and j (legacy from the BM3D implementation, noted x and y in [1]);
 - LF  = Light Field;
 - SAI = Sub-Aperture Image.
@@ -50,33 +51,35 @@ Then run one of the following command to test the executable of your choice:
 
 ## Command line examples
 
-The following command line examples were used to generate results in [1]. See the next section for a detailed decription of command line parameters.
+The following command line examples were used to generate results in [1]. See the next section for a detailed description of command line parameters.
 
 Synthetic noise:
 - [Stanford dataset](http://lightfield.stanford.edu/lfs.html):
-	- `./LFBM5Ddenoising path/to/sourceLF 17 17 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF path/to/diffLF 8 18 6 16 4 id sadct haar 0 16 18 6 8 4 dct sadct haar 0 opp 0 outputMeasuresLFBM5D.txt`
-	- `./LFBM3Ddenoising path/to/sourceLF 17 17 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF path/to/diffLF 16 16 8 3 bior 0 32 16 8 3 dct 0 opp 0 outputMeasuresLFBM3D.txt`
+	- `./LFBM5Ddenoising path/to/sourceLF SAI 17 17 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF path/to/diffLF 8 18 6 16 4 id sadct haar 0 16 18 6 8 4 dct sadct haar 0 opp 0 outputMeasuresLFBM5D.txt`
+	- `./LFBM3Ddenoising path/to/sourceLF SAI 17 17 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF path/to/diffLF 16 16 8 3 bior 0 32 16 8 3 dct 0 opp 0 outputMeasuresLFBM3D.txt`
 
 - [EPFL dataset](https://mmspg.epfl.ch/EPFL-light-field-image-dataset):
-	- `./LFBM5Ddenoising path/to/sourceLF 15 15 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF path/to/diffLF 1 18 3 16 3 bior sadct haar 0 8 18 3 8 3 dct sadct haar 0 opp 0 outputMeasuresLFBM5D.txt`
-	- `./LFBM3Ddenoising path/to/sourceLF 15 15 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF path/to/diffLF 16 16 8 3 bior 0 32 16 8 3 dct 0 opp 0 outputMeasuresLFBM3D.txt`
+	- `./LFBM5Ddenoising path/to/sourceLF SAI 15 15 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF path/to/diffLF 1 18 3 16 3 bior sadct haar 0 8 18 3 8 3 dct sadct haar 0 opp 0 outputMeasuresLFBM5D.txt`
+	- `./LFBM3Ddenoising path/to/sourceLF SAI 15 15 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF path/to/diffLF 16 16 8 3 bior 0 32 16 8 3 dct 0 opp 0 outputMeasuresLFBM3D.txt`
 	
 Lenslet noise removal:
 - EPFL dataset:
-	- `./LFBM5Ddenoising none 15 15 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF none 8 18 6 16 4 bior sadct haar 0 16 18 6 8 4 dct sadct haar 0 opp 0 outputMeasuresLFBM5D.txt`
-	- `./LFBM3Ddenoising none 15 15 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF none 16 16 8 3 bior 0 32 16 8 3 dct 0 opp 0 outputMeasuresLFBM3D.txt`
+	- `./LFBM5Ddenoising none SAI 15 15 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF none 8 18 6 16 4 bior sadct haar 0 16 18 6 8 4 dct sadct haar 0 opp 0 outputMeasuresLFBM5D.txt`
+	- `./LFBM3Ddenoising none SAI 15 15 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF none 16 16 8 3 bior 0 32 16 8 3 dct 0 opp 0 outputMeasuresLFBM3D.txt`
 	
 
 ## Generic commands and parameters description
 The generic ways to run the executables are listed below:
 
-- `./LFBM5Ddenoising LFSourceDir awidth aheight aswSizeHard aswSizeWien angMajor sigma lambda LFNoisyDir LFBasicDir LFDenoisedDir LFDiffDir NHard nSimHard nDispHard khard pHard tau2DHard tau4DHard tau5DHard useSDHard NWien nSimWien nDispWien kWien pWien tau2DWien tau4DWien tau5DWien useSDWien colorSpace nbThreads resultsFile`
+- `./LFBM5Ddenoising LFSourceDir SAIName awidth aheight sIdxStart tIdxStart aswSizeHard aswSizeWien angMajor sigma lambda LFNoisyDir LFBasicDir LFDenoisedDir LFDiffDir NHard nSimHard nDispHard khard pHard tau2DHard tau4DHard tau5DHard useSDHard NWien nSimWien nDispWien kWien pWien tau2DWien tau4DWien tau5DWien useSDWien colorSpace nbThreads resultsFile`
 				  
-- `./LFBM3Ddenoising LFSourceDir awidth aheight aswSizeHard aswSizeWien angMajor sigma lambda LFNoisyDir LFBasicDir LFDenoisedDir LFDiffDir NHard nHard kHard pHard tau2DHard NWien nWien kWien pWien tau2DWien colorSpace nbThreads resultsFile`
+- `./LFBM3Ddenoising LFSourceDir SAIName awidth aheight sIdxStart tIdxStart aswSizeHard aswSizeWien angMajor sigma lambda LFNoisyDir LFBasicDir LFDenoisedDir LFDiffDir NHard nHard kHard pHard tau2DHard NWien nWien kWien pWien tau2DWien colorSpace nbThreads resultsFile`
 
 with parameters:
 - LFSourceDir (string): input source light field directory containing noise-free sub-aperture images (used as ground truth in PSNR computation). Use 'none' for this parameter to specify that no ground truth is available and direclty use LFNoisyDir as input.
+- SAIName (string): common name for all sub-aperture images contained in the LFSourceDir directory.
 - awidth, aheight (int): angular size of the light field.
+- sIdxStart, tIdxStart (int): first angular indexes of the light field, corresponding to the top left image. 
 - aswSizeHard, aswSizeWien (int): half size of the angular search window for the hard thresholding and Wiener step respectively (the full angular search window size is noted $n_a$ in [1]).
 	- recommended value: 1.
 - angMajor (string): indicate if the sub-aperture images of the light field are ordered row-wise or column-wise.
