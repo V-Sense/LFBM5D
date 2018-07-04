@@ -12,6 +12,8 @@ This code is built upon the [IPOL implementation of the BM3D denoising filter](h
 
 In addition to the LFBM5D filter, this code provides an implementation of light field denoising using the BM3D filter applied to every sub-aperture images (used to provide results in [1]).
 
+For the super-resolution extension SR-LFBM5D [3], switch to the SR branch.
+
 ## Light field conventions
 
 The input light field should be in the form of a collection of PNG sub-aperture images located in a common folder. The naming convention for the sub-aperture images must be of the form <SAI_name>\_<s_idx>\_<t_idx>.png, where <SAI_name> is the common name for all images (e.g. 'SAI' as in our testing example, 'Img', 'Cam'...), and <s_idx> and <t_idx> correspond to the angular indexes of the light field images. If the <s_idx> corresponds to the row indexes of your light field, the light field is considered to be ordered row-wise, and the parameter angMajor should be set to 'row'. Otherwise, the light field is considered to be ordered column-wise, and the parameter angMajor should be set to 'col'.
@@ -117,3 +119,5 @@ with parameters:
 [1] Martin Alain, Aljosa Smolic, "Light Field Denoising by Sparse 5D Transform Domain Collaborative Filtering", IEEE International Workshop on Multimedia Signal Processing (MMSP 2017), 2017, https://v-sense.scss.tcd.ie/?p=893
 
 [2] Marc Lebrun, "An Analysis and Implementation of the BM3D Image Denoising Method", Image Processing On Line, 2 (2012), pp 175-213, https://doi.org/10.5201/ipol.2012.l-bm3d
+
+[3] Martin Alain, Aljosa Smolic, "Light Field Super-Resolution via LFBM5D Sparse Coding", IEEE International Conference on Image Processing (ICIP 2018), 2018, https://v-sense.scss.tcd.ie/?p=1551
