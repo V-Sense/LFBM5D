@@ -20,7 +20,7 @@ CXXOBJ	= $(CXXSRC:.cpp=.o)
 # all objects
 OBJ	= $(COBJ) $(CXXOBJ)
 # binary target
-BIN	= LFBM5Ddenoising
+BIN	= LFBM5DSR
 
 # use debug with `make DBG=1`
 ifdef DBG

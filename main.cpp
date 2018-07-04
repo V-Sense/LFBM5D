@@ -234,6 +234,7 @@ int main(int argc, char **argv)
     float save_elapsed_secs = float(end_save-start_save) / 1000000.0f;
     cout << "done in " << save_elapsed_secs << "s." << endl;
 
+/* UNCOMMENT THIS PART IF YOU WISH TO PERFORM THE WIENER FILTERING
     //* -------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //* Second  step - Wiener filtering
     cout << endl << endl;
@@ -299,6 +300,7 @@ int main(int argc, char **argv)
     float bm5d_elapsed_secs = float(end_bm5d-start_bm5d) / 1000000.0f;
     cout << "Total LFBM5D computing time = " << step1_elapsed_secs + step2_elapsed_secs << "s." << endl;
     cout << "Total elapsed time = " << bm5d_elapsed_secs << "s." << endl;
+*/
 
     cout << endl;
     cout << "*********************************************************************************************************************" << endl;
