@@ -60,7 +60,7 @@ int main(int argc, char **argv)
     cout << "*********************************************************************************************************************" << endl;
 
     //! Define and get params from command Line
-    char *LF_input_name, *LF_noisy_name, *LF_basic_name, *LF_denoised_name, *LF_diff_name, *sub_img_name;
+    char *LF_input_name, *LF_noisy_name, *LF_basic_name, *LF_denoised_name, *LF_diff_name, *sub_img_name, *sep;
     bool gt_exists;
     unsigned awidth, aheight, s_start, t_start, anHard, anWien, ang_major;
     float fSigma, lambdaHard3D;
@@ -73,7 +73,7 @@ int main(int argc, char **argv)
     unsigned nb_threads;
     char* psnr_file_name;
 
-    if(get_params_BM3D(argc, argv, &LF_input_name, &sub_img_name, gt_exists, awidth, aheight, s_start, t_start, anHard, anWien, ang_major, fSigma, lambdaHard3D, &LF_noisy_name, &LF_basic_name, &LF_denoised_name, &LF_diff_name,
+    if(get_params_BM3D(argc, argv, &LF_input_name, &sub_img_name, &sep, gt_exists, awidth, aheight, s_start, t_start, anHard, anWien, ang_major, fSigma, lambdaHard3D, &LF_noisy_name, &LF_basic_name, &LF_denoised_name, &LF_diff_name,
                   NHard, nHard, kHard, pHard, tau_2D_hard, useSD_1,
                   NWien, nWien, kWien, pWien, tau_2D_wien, useSD_2,
                   color_space, nb_threads, &psnr_file_name) != EXIT_SUCCESS)
@@ -105,7 +105,7 @@ int main(int argc, char **argv)
     {
         LF.resize(awh);
         timestamp_t start_load = get_timestamp();
-        if(load_LF(LF_input_name, sub_img_name, LF, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, &width, &height, &chnls) != EXIT_SUCCESS)
+        if(load_LF(LF_input_name, sub_img_name, sep, LF, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, &width, &height, &chnls) != EXIT_SUCCESS)
             return EXIT_FAILURE;
         timestamp_t end_load = get_timestamp();
         float load_elapsed_secs = float(end_load-start_load) / 1000000.0f;
@@ -130,7 +130,7 @@ int main(int argc, char **argv)
         //! Save light field
         cout << endl << "Save noisy light field..." << endl;
         timestamp_t start_save = get_timestamp();
-        if (save_LF(LF_noisy_name, sub_img_name, LF_noisy, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, width, height, chnls) != EXIT_SUCCESS)
+        if (save_LF(LF_noisy_name, sub_img_name, sep, LF_noisy, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, width, height, chnls) != EXIT_SUCCESS)
             return EXIT_FAILURE;
         timestamp_t end_save = get_timestamp();
         float save_elapsed_secs = float(end_save-start_save) / 1000000.0f;
@@ -140,7 +140,7 @@ int main(int argc, char **argv)
     {
         LF_noisy.resize(awh);
         timestamp_t start_load_noisy = get_timestamp();
-        if(load_LF(LF_noisy_name, sub_img_name, LF_noisy, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, &width, &height, &chnls) != EXIT_SUCCESS)
+        if(load_LF(LF_noisy_name, sub_img_name, sep, LF_noisy, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, &width, &height, &chnls) != EXIT_SUCCESS)
             return EXIT_FAILURE;
         timestamp_t end_load_noisy = get_timestamp();
         float load_noisy_elapsed_secs = float(end_load_noisy-start_load_noisy) / 1000000.0f;
@@ -204,7 +204,7 @@ int main(int argc, char **argv)
     //! Save light field
 	cout << endl << "Save basic light field..." << endl;
     timestamp_t start_save = get_timestamp();
-	if (save_LF(LF_basic_name, sub_img_name, LF_basic, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, width, height, chnls) != EXIT_SUCCESS)
+	if (save_LF(LF_basic_name, sub_img_name, sep, LF_basic, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, width, height, chnls) != EXIT_SUCCESS)
         return EXIT_FAILURE;
     timestamp_t end_save = get_timestamp();
     float save_elapsed_secs = float(end_save-start_save) / 1000000.0f;
@@ -241,7 +241,7 @@ int main(int argc, char **argv)
     //! Save light field
     cout << endl << "Save denoised light field..." << endl;
     start_save = get_timestamp();
-	if (save_LF(LF_denoised_name, sub_img_name, LF_denoised, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, width, height, chnls) != EXIT_SUCCESS)
+	if (save_LF(LF_denoised_name, sub_img_name, sep, LF_denoised, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, width, height, chnls) != EXIT_SUCCESS)
         return EXIT_FAILURE;
     end_save = get_timestamp();
     save_elapsed_secs = float(end_save-start_save) / 1000000.0f;
@@ -251,7 +251,7 @@ int main(int argc, char **argv)
     {
         cout << endl << "Save diff light field..." << endl;
         start_save = get_timestamp();
-        if (save_LF(LF_diff_name, sub_img_name, LF_diff, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, width, height, chnls) != EXIT_SUCCESS)
+        if (save_LF(LF_diff_name, sub_img_name, sep, LF_diff, LF_SAI_mask, ang_major, awidth, aheight, s_start, t_start, width, height, chnls) != EXIT_SUCCESS)
             return EXIT_FAILURE;
         end_save = get_timestamp();
         save_elapsed_secs = float(end_save-start_save) / 1000000.0f;

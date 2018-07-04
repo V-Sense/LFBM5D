@@ -12,6 +12,7 @@ typedef unsigned long long timestamp_t;
 int load_LF(
     char* name
 ,   char* sub_img_name
+,   char* sep
 ,   std::vector<std::vector<float> > &LF
 ,   std::vector<unsigned> &LF_SAI_mask
 ,   const unsigned ang_major
@@ -28,6 +29,7 @@ int load_LF(
 int save_LF(
     char* name
 ,   char* sub_img_name
+,   char* sep
 ,   std::vector<std::vector<float> > &LF
 ,   std::vector<unsigned> &LF_SAI_mask
 ,   const unsigned ang_major
@@ -243,6 +245,7 @@ void ind_initialize(
 ,   char **argv
 ,   char **LF_input_name
 ,   char **sub_img_name
+,   char **sep
 ,   bool     &gt_exists
 ,   unsigned &awidth
 ,   unsigned &aheight
@@ -285,6 +288,7 @@ int get_params_BM3D(
 ,   char **argv
 ,   char **LF_input_name
 ,   char **sub_img_name
+,   char **sep
 ,   bool     &gt_exists
 ,   unsigned &awidth
 ,   unsigned &aheight

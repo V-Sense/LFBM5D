@@ -68,6 +68,7 @@
 int load_LF(
     char* name
 ,   char* sub_img_name
+,   char* sep
 ,   vector<vector<float> > &LF
 ,   vector<unsigned> &LF_SAI_mask
 ,   const unsigned ang_major
@@ -104,7 +105,7 @@ int load_LF(
             //! read input image
             stringstream strt;
             strt << setw(2) << setfill('0') << (t + t_start);
-            string img_name = string(name) + "/" + string(sub_img_name) + "_" + strs.str() + "_" +  strt.str() + ".png";
+            string img_name = string(name) + "/" + string(sub_img_name) + string(sep) + strs.str() + string(sep) +  strt.str() + ".png";
             cout << "\rRead input image " << img_name << flush; 
             size_t h, w, c;
             float *tmp = NULL;
@@ -287,6 +288,7 @@ int load_LF(
 int save_LF(
     char* LF_name
 ,   char* sub_img_name
+,   char* sep
 ,   vector<vector<float> > &LF
 ,   vector<unsigned> &LF_SAI_mask
 ,   const unsigned ang_major
@@ -324,7 +326,7 @@ int save_LF(
             ostringstream strs, strt;
             strs << setfill('0') << setw(2) << (s + s_start);
             strt << setfill('0') << setw(2) << (t + t_start);
-            tmp_name = tmp_name + "/" + sub_img_name + "_" + strs.str() + "_" + strt.str() + ".png";
+            tmp_name = tmp_name + "/" + sub_img_name + string(sep) + strs.str() + string(sep) + strt.str() + ".png";
             cout << "\rWrite image " << tmp_name << flush;
             const char * img_name = tmp_name.c_str();
             save_image(img_name, LF[st], width, height, chnls);
@@ -1231,6 +1233,7 @@ void ind_initialize(
 ,   char **argv
 ,   char **LF_input_name
 ,   char **sub_img_name
+,   char **sep
 ,   bool     &gt_exists
 ,   unsigned &awidth
 ,   unsigned &aheight
@@ -1268,9 +1271,9 @@ void ind_initialize(
 ,   char **psnr_file_name
 ){
      //! Check if there is the right call for the algorithm
-	if (argc < 37)
+	if (argc < 38)
 	{
-		cout << "usage: LFBM5Ddenoising LF_dir SAI_name LF_awidth LF_aheight s_idx_start t_idx_start asw_size_ht asw_size_wien ang_major sigma lambda \
+		cout << "usage: LFBM5Ddenoising LF_dir SAI_name SAI_name_sep LF_awidth LF_aheight s_idx_start t_idx_start asw_size_ht asw_size_wien ang_major sigma lambda \
                  LF_dir_noisy LF_dir_basic LF_dir_denoised LF_dir_difference \
                  NHard nSimHard nDispHard khard pHard tau_2d_hard tau_4d_hard tau_5d_hard useSD_hard \
                  NWien nSimWien nDispWien kWien pWien tau_2d_wien tau_4d_wien tau_5d_wien useSD_wien \
@@ -1281,6 +1284,9 @@ void ind_initialize(
     unsigned par_idx = 0;
     *LF_input_name = argv[++par_idx];
     *sub_img_name = argv[++par_idx];
+    if(strcmp(*sub_img_name, "none" ) == 0) *sub_img_name = "";
+    *sep = argv[++par_idx];
+    if(strcmp(*sep, "none" ) == 0) *sep = "";
     gt_exists    = !(strcmp(*LF_input_name, "none" ) == 0);
     awidth       = atoi(argv[++par_idx]);
     aheight      = atoi(argv[++par_idx]);
@@ -1441,6 +1447,7 @@ void ind_initialize(
 ,   char **argv
 ,   char **LF_input_name
 ,   char **sub_img_name
+,   char **sep
 ,   bool     &gt_exists
 ,   unsigned &awidth
 ,   unsigned &aheight
@@ -1472,9 +1479,9 @@ void ind_initialize(
 ,   char **psnr_file_name
 ){
      //! Check if there is the right call for the algorithm
-	if (argc < 26)
+	if (argc < 27)
 	{
-		cout << "usage: LFBM3Ddenoising LF_dir SAI_name LF_awidth LF_aheight s_idx_start t_idx_start asw_size_ht asw_size_wien ang_major sigma lambda \
+		cout << "usage: LFBM3Ddenoising LF_dir SAI_name SAI_name_sep LF_awidth LF_aheight s_idx_start t_idx_start asw_size_ht asw_size_wien ang_major sigma lambda \
                  LF_dir_noisy LF_dir_basic LF_dir_denoised LF_dir_difference \
                  NHard nHard kHard pHard tau_2d_hard \
                  NWien nWien kWien pWien tau_2d_wien \
@@ -1485,6 +1492,9 @@ void ind_initialize(
     unsigned par_idx = 0;
     *LF_input_name = argv[++par_idx];
     *sub_img_name = argv[++par_idx];
+    if(strcmp(*sub_img_name, "none" ) == 0) *sub_img_name = "";
+    *sep = argv[++par_idx];
+    if(strcmp(*sep, "none" ) == 0) *sep = "";
     gt_exists    = !(strcmp(*LF_input_name, "none" ) == 0);
     awidth       = atoi(argv[++par_idx]);
     aheight      = atoi(argv[++par_idx]);
