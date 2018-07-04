@@ -1,4 +1,4 @@
-# Light field denoising with the LFBM5D filter
+# Light field super-resolution with the SR-LFBM5D filter
 
 ![LFBM5D SR example](https://v-sense.scss.tcd.ie/wp-content/uploads/2018/02/cover-1.png)
 
