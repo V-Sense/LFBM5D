@@ -147,7 +147,11 @@ for it = 1:numIt
     
     %% First step: BM5D HT
     % Call BM5DSR exe
-    exe = './LFBM5DSR';
+    if isunix
+        exe = './LFBM5DSR';
+    else
+        exe = 'LFBM5DSR.exe';
+    end
     sig = sigList(it);
     nb_threads = 8;
     cmd = [exe, ' none ' sub_img_name ' ' sep ' ' num2str(awidth) ' ' num2str(aheight) ' ' num2str(s_start) ' ' num2str(t_start) ' 1 1 row ' ...
@@ -155,7 +159,7 @@ for it = 1:numIt
         inputDir ' ' BM5DDirHT ' ' BM5DDirWien ' none ' ...
         '32 18 6 8 7 dct dct haar 0 32 18 6 4 2 id dct haar 0 ycbcr ' num2str(nb_threads) ' nooutputfile'];
     echo = ''; % use '-echo' to see the output of the BM5DSR exe
-    [status, cmdout] = unix(cmd, echo);
+    [status, cmdout] = system(cmd, echo);
     
     if status ~= 0
         error(['Error when running LFBM5DSR at iteration ' num2str(it)]);

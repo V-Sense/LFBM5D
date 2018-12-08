@@ -4,7 +4,7 @@
 
 PROJECT(BM5DProject)
 
-cmake_minimum_required(VERSION 2.8)#Not sure of minimum version
+cmake_minimum_required(VERSION 2.8)
 
 SET(CMAKE_BUILD_TYPE Release)
 
