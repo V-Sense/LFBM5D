@@ -31,8 +31,8 @@ IF(WIN32)
 #If libfftw and libpng libraries are not in the environment path, then specify their location here
 # Remember that even if you are under windows cmake does not like \ in path
 set(LFBM5D_INCLUDE_DIR ${LFBM5D_INCLUDE_DIR}
-"C:/Programming/fftw-3.3.5-dll64"
-"C:/Programming/lpng1636"
+"C:/path/to/fftw-3.3.5-dll64"
+"C:/path/to/lpng1636"
 )
 ENDIF(WIN32)
 IF(UNIX)
@@ -52,9 +52,9 @@ ENDIF(MSVC)
 IF(WIN32)
 #If libfftw and libpng libraries are not in the environment path, then specify their location here
 set(LFBM5D_LINK_LIBRARIES ${LFBM5D_LINK_LIBRARIES}
-	"C:/Programming/fftw-3.3.5-dll64/libfftw3f-3.lib"
-	"C:/Programming/lpng1636/projects/vstudio/x64/Release Library/libpng16.lib"
-	"C:/Programming/lpng1636/projects/vstudio/x64/Release Library/zlib.lib"
+	"C:/path/to/fftw-3.3.5-dll64/libfftw3f-3.lib"
+	"C:/path/to/lpng1636/projects/vstudio/x64/Release Library/libpng16.lib"
+	"C:/path/to/lpng1636/projects/vstudio/x64/Release Library/zlib.lib"
 )
 ENDIF(WIN32)
 IF(UNIX)
