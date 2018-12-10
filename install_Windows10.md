@@ -11,7 +11,7 @@ We recommend that for running any command line you use the Developer Command Pro
 
 ### FFTW
 1) Download the dll files from http://fftw.org/install/windows.html and follow the instructions on that website. You basically have to generate the .lib files by running `lib /machine:x64 /def:libfftw3f-3.def` (you might have to change the /machine setting depending on your configuration). 
-2) In src/CMakeLists.txt, add the path to the fftw dll directory line 34, e.g. "C:/path/2/fftw", and add the path to the .lib line 55, e.g. "C:/path/2/fftw/libfftw3f-3.lib".
+2) In src/CMakeLists.txt, add the path to the fftw dll directory lines 34 and 100, e.g. "C:/path/2/fftw", and add the path to the .lib lines 55 and 121, e.g. "C:/path/2/fftw/libfftw3f-3.lib".
 
 ### libpng and zlib
 1) Download libpng and zlib source code from http://www.libpng.org/pub/png/libpng.html
@@ -21,7 +21,7 @@ We recommend that for running any command line you use the Developer Command Pro
 Note: Make sure to choose the right configuration between Win32 and x64, default one is Win32. To create an x64 configuration, next to 'release library' option, in the 'Win32' menu, select 'Configuration manager'. Under Active solution platform' select '<New...>', then 'Type or select the new platform, select x64.). 
 To compile the 'zlib' and 'libpng' projects, you might have to change compilation flag to NOT treat warnings as errors, in project properties -> C/C++ -> General -> Treat Warnings As Errors -> No (/WX-).
 	
-4) Finally, in src/CMakeLists.txt, add the path to the libpng directory line 35, e.g. "C:/path/to/lpng1636". In addition, add the path to the .lib line 56 and 57, e.g. "C:/path/to/lpng1636/projects/vstudio/x64/Release Library/libpng16.lib" and "C:/path/to/lpng1636/projects/vstudio/x64/Release Library/zlib.lib"
+4) Finally, in src/CMakeLists.txt, add the path to the libpng directory lines 35 and 101, e.g. "C:/path/to/lpng1636". In addition, add the path to the .lib lines 56, 57, 1221 and 123, e.g. "C:/path/to/lpng1636/projects/vstudio/x64/Release Library/libpng16.lib" and "C:/path/to/lpng1636/projects/vstudio/x64/Release Library/zlib.lib"
 
 ### Usage
 You will have to copy libfftw3f-3.dll in the same folder as your executable.
