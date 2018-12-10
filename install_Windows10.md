@@ -1,6 +1,8 @@
 This is a list of instructions / recommendations to help you compile the BM5D project on Windows.
 This was tested on Windows 10 x64.
 
+Note that if you are a Windows 10 user and only intend to use this code the denoising and not for the super-resolution (branch SR), we highly recommend installing Ubuntu from the Microsoft Store, and follow the procedure for Linux, which is much easier than the Windows install.
+
 ## Microsoft visual studio
 We recommend installing the latest version of the visual studio IDE at https://visualstudio.microsoft.com/ (we used Community 2017 for testing).
 We recommend that for running any command line you use the Developer Command Prompt for VS (you may have to run it as administrator).

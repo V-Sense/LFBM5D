@@ -30,16 +30,15 @@ Futhermore, the following conventions/notations are adopted in the code:
 
 ## Source code compilation
 
-The source code can be compiled on Unix/Linux/Mac OS using the make program. For Windows 10 users, we highly recommend [installing Bash shell to run Linux commands](https://www.windowscentral.com/how-install-bash-shell-command-line-windows-10).
+The source code can be compiled on Unix/Linux/Mac OS using the cmake and make program. For Windows 10 users, we provide an executable which should be compatible with x64 platforms. If the .exe is not working or you wish to modify the code, you will have to compile it yourself using Visual Studio, see install_Windows10.md for more details.
 
-This code requires the libpng library and the fftw library (e.g. on Ubuntu run `apt-get install libpng-dev` and `apt-get install libfftw3-dev`, on Mac OS run `brew install libpng` and `brew install fftw`).
-
-Furthermore we highly recommend using the [Open Multi-Processing multithread parallelization](http://openmp.org/) to speed up the processing time. Simply add OMP=1 after the make command to use OpenMP.
+This code requires the libpng library and the fftw library. On Ubuntu run `apt-get install libpng-dev` and `apt-get install libfftw3-dev`, on Mac OS run `brew install libpng` and `brew install fftw`. On Windows the process is a bit more complex, see the instructions in install_Windows10.md.
 
 Instructions to compile the code:
 - Download/clone the repository and go to the corresponding directory.
-- To compile the LFBM5D filter run: `make [OMP=1]`. This generates an executable named LFBM5Ddenoising.
-- To compile the BM3D applied on SAIs run: `make -f Makefile_LFBM3D [OMP=1]`. This generates an executable named LFBM3Ddenoising.
+- Create a build directory and cd into it, e.g. run: `mkdir build && cd build`.
+- Run cmake: `cmake ..`.
+- On Unix/Linux/Mac OS, run: `make`. On Windows 10 run the BM5DProject.sln and compile with Visual Studio. This generates two executables named LFBM5Ddenoising and LFBM3Ddenoising (.exe on Windows).
 
 ## Testing
 
@@ -51,6 +50,8 @@ Then run one of the following command to test the executable of your choice:
 - `./LFBM5Ddenoising ./testing/sourceLF SAI _ 3 3 1 1 1 1 row 25 2.7 ./testing/noisyLF ./testing/basicLF ./testing/denoisedLF ./testing/diffLF 8 18 6 16 4 id sadct haar 0 16 18 6 8 4 dct sadct haar 0 opp 0 ./testing/outputMeasuresLFBM5D.txt`
 - `./LFBM3Ddenoising ./testing/sourceLF SAI _ 3 3 1 1 1 1 row 25 2.7 ./testing/noisyLF ./testing/basicLF ./testing/denoisedLF ./testing/diffLF 16 16 8 3 bior 0 32 16 8 3 dct 0 opp 8 ./testing/outputMeasuresLFBM3D.txt`
 
+For Windows users, we recommend using the Developer Command Prompt for Visual Studio to run these commands, and replace ./LFBMxDdenoising by LFBMxDdenoising.exe. Make sure that libfftw3f-3.dll is in the same folder as your executable.
+
 ## Command line examples
 
 The following command line examples were used to generate results in [1]. See the next section for a detailed description of command line parameters.
@@ -58,7 +59,7 @@ The following command line examples were used to generate results in [1]. See th
 Synthetic noise:
 - [Stanford dataset](http://lightfield.stanford.edu/lfs.html):
 	- `./LFBM5Ddenoising path/to/sourceLF SAI _ 17 17 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF path/to/diffLF 8 18 6 16 4 id sadct haar 0 16 18 6 8 4 dct sadct haar 0 opp 0 outputMeasuresLFBM5D.txt`
-	- `./LFBM3Ddenoising path/to/sourceLF SAI 17 17 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF path/to/diffLF 16 16 8 3 bior 0 32 16 8 3 dct 0 opp 0 outputMeasuresLFBM3D.txt`
+	- `./LFBM3Ddenoising path/to/sourceLF SAI _ 17 17 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF path/to/diffLF 16 16 8 3 bior 0 32 16 8 3 dct 0 opp 0 outputMeasuresLFBM3D.txt`
 
 - [EPFL dataset](https://mmspg.epfl.ch/EPFL-light-field-image-dataset):
 	- `./LFBM5Ddenoising path/to/sourceLF SAI _ 15 15 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF path/to/diffLF 1 18 3 16 3 bior sadct haar 0 8 18 3 8 3 dct sadct haar 0 opp 0 outputMeasuresLFBM5D.txt`
@@ -112,6 +113,10 @@ with parameters:
 - nbThreads (int, power of 2): specifies the number of threads to use with OpenMP. If 0, the maximum number of available threads is used.
 	- recommended value: 0.
 - resultsFile (string): text file which will contains all the objective measures PSNR for each sub-aperture image as well as average value and standard deviation over the light field.
+
+## Acknowledgement
+
+Thanks to Pierre Allain from INRIA Rennes for providing the cmake files.
 
 
 ## References
