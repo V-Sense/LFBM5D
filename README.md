@@ -49,6 +49,10 @@ To use your own dataset or different scaling factors, you need to modify the get
 
 If you are using Windows, make sure that libfftw3f-3.dll is in the same folder as your executable.
 
+## Acknowledgement
+
+Thanks to Pierre Allain from INRIA Rennes for providing the cmake files.
+
 ## References
 
 [1] Martin Alain, Aljosa Smolic, "Light Field Super-Resolution via LFBM5D Sparse Coding", IEEE International Conference on Image Processing (ICIP 2018), 2018, https://v-sense.scss.tcd.ie/?p=1551
