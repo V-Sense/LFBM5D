@@ -46,6 +46,7 @@ Note that compared to the denoising filter, only the hard-thresholding step is p
 In this version of the code, the test light field provided in testing/sourceLF is used. The results are written in testing/SR_xX, where X is the scaling factor.
 
 To use your own dataset or different scaling factors, you need to modify the getParams.m file. Note that the getParams() function is used to ensure that the generateDatasetSR and runBM5DSR scripts run with the same parameters.
+The function BM5DSR_no_GT() is also provided to process your own light fields with unknown high resolution ground truth.
 
 If you are using Windows, make sure that libfftw3f-3.dll is in the same folder as your executable.
 
