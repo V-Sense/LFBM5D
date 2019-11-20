@@ -70,6 +70,9 @@ Lenslet noise removal:
 	- `./LFBM5Ddenoising none SAI _ 15 15 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF none 8 18 6 16 4 bior sadct haar 0 16 18 6 8 4 dct sadct haar 0 opp 0 outputMeasuresLFBM5D.txt`
 	- `./LFBM3Ddenoising none SAI _ 15 15 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF none 16 16 8 3 bior 0 32 16 8 3 dct 0 opp 0 outputMeasuresLFBM3D.txt`
 	
+The following command line examples were used to generate results in [4]. They provide faster processing for similar denoising performances to the command line above.
+	- `./LFBM5Ddenoising none SAI _ 15 15 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF none 1 16 3 16 5 bior sadct haar 0 8 16 3 8 5 dct sadct haar 0 opp 0 outputMeasuresLFBM5D.txt`
+	
 
 ## Generic commands and parameters description
 The generic ways to run the executables are listed below:
