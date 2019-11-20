@@ -70,8 +70,8 @@ Lenslet noise removal:
 	- `./LFBM5Ddenoising none SAI _ 15 15 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF none 8 18 6 16 4 bior sadct haar 0 16 18 6 8 4 dct sadct haar 0 opp 0 outputMeasuresLFBM5D.txt`
 	- `./LFBM3Ddenoising none SAI _ 15 15 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF none 16 16 8 3 bior 0 32 16 8 3 dct 0 opp 0 outputMeasuresLFBM3D.txt`
 	
-The following command line examples were used to generate results in [4]. They provide faster processing for similar denoising performances to the command line above.
-	- `./LFBM5Ddenoising none SAI _ 15 15 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF none 1 16 3 16 5 bior sadct haar 0 8 16 3 8 5 dct sadct haar 0 opp 0 outputMeasuresLFBM5D.txt`
+The following command line example was used to generate results in [4]. They provide faster processing for similar denoising performances to the command line above.
+- `./LFBM5Ddenoising none SAI _ 15 15 0 0 1 1 row 10 2.7 path/to/noisyLF path/to/basicLF path/to/denoisedLF none 1 16 3 16 5 bior sadct haar 0 8 16 3 8 5 dct sadct haar 0 opp 0 outputMeasuresLFBM5D.txt`
 	
 
 ## Generic commands and parameters description
@@ -124,8 +124,10 @@ Thanks to Pierre Allain from INRIA Rennes for providing the cmake files.
 
 ## References
 
-[1] Martin Alain, Aljosa Smolic, "Light Field Denoising by Sparse 5D Transform Domain Collaborative Filtering", IEEE International Workshop on Multimedia Signal Processing (MMSP 2017), 2017, https://v-sense.scss.tcd.ie/?p=893
+[1] Martin Alain, Aljosa Smolic, "Light Field Denoising by Sparse 5D Transform Domain Collaborative Filtering", IEEE International Workshop on Multimedia Signal Processing (MMSP 2017), 2017, https://v-sense.scss.tcd.ie/research/light-fields/light-field-denoising/
 
 [2] Marc Lebrun, "An Analysis and Implementation of the BM3D Image Denoising Method", Image Processing On Line, 2 (2012), pp 175-213, https://doi.org/10.5201/ipol.2012.l-bm3d
 
-[3] Martin Alain, Aljosa Smolic, "Light Field Super-Resolution via LFBM5D Sparse Coding", IEEE International Conference on Image Processing (ICIP 2018), 2018, https://v-sense.scss.tcd.ie/?p=1551
+[3] Martin Alain, Aljosa Smolic, "Light Field Super-Resolution via LFBM5D Sparse Coding", IEEE International Conference on Image Processing (ICIP 2018), 2018, https://v-sense.scss.tcd.ie/research/light-fields/light-field-super-resolution-via-lfbm5d-sparse-coding/
+
+[4] Pierre Matysiak, Mairead Grogan, Mikael Le Pendu, Martin Alain, Aljosa Smolic, "A pipeline for lenslet light field quality enhancement", IEEE International Conference on Image Processing (ICIP 2018), 2018, https://v-sense.scss.tcd.ie/research/light-fields/high-quality-light-field-extraction/
