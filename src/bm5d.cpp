@@ -367,7 +367,7 @@ int run_bm5d_1st_step(
                 procSAI[st] += 1;
 
                 //! Break loop if all SAIs in search window are denoised
-                float LF_dn_pct = LF_denoised_percent(LF_sym_basic_den_asw, LF_SAI_mask_asw, width, height, nHard, kHard);
+                float LF_dn_pct = LF_denoised_percent(LF_sym_basic_den_asw, LF_SAI_mask_asw, width, height, chnls, nHard, kHard);
                 if(LF_dn_pct >= 100.0f)
                 {
                     for(unsigned st_asw = 0; st_asw < st_idx_asw.size(); st_asw++)
@@ -660,7 +660,7 @@ int run_bm5d_1st_step(
                 float LF_dn_pct = 0.0f;
                 #pragma omp parallel for
                 for (int n = 0; n < nb_threads; n++)
-                    LF_dn_pct += LF_denoised_percent(LF_sub_basic_den_asw[n], LF_SAI_mask_asw, w_table[n] - 2 * nHard, h_table[n] - 2 * nHard, nHard, kHard);
+                    LF_dn_pct += LF_denoised_percent(LF_sub_basic_den_asw[n], LF_SAI_mask_asw, w_table[n] - 2 * nHard, h_table[n] - 2 * nHard, chnls, nHard, kHard);
                 if(LF_dn_pct >= (100.0f * (float)(nb_threads)))
                 {
                     for(unsigned st_asw = 0; st_asw < st_idx_asw.size(); st_asw++)
@@ -1066,7 +1066,7 @@ int run_bm5d_2nd_step(
                 procSAI[st] += 1;
 
                 //! Break loop if all SAIs in search window are denoised
-                float LF_dn_pct = LF_denoised_percent(LF_sym_denoised_den_asw, LF_SAI_mask_asw, width, height, nWien, kWien);
+                float LF_dn_pct = LF_denoised_percent(LF_sym_denoised_den_asw, LF_SAI_mask_asw, width, height, chnls, nWien, kWien);
                 if(LF_dn_pct >= 100.0f)
                 {
                     for(unsigned st_asw = 0; st_asw < st_idx_asw.size(); st_asw++)
@@ -1363,7 +1363,7 @@ int run_bm5d_2nd_step(
                 float LF_dn_pct = 0.0f;
                 #pragma omp parallel for
                 for (int n = 0; n < nb_threads; n++)
-                    LF_dn_pct += LF_denoised_percent(LF_sub_denoised_den_asw[n], LF_SAI_mask_asw, w_table[n] - 2 * nWien, h_table[n] - 2 * nWien, nWien, kWien);
+                    LF_dn_pct += LF_denoised_percent(LF_sub_denoised_den_asw[n], LF_SAI_mask_asw, w_table[n] - 2 * nWien, h_table[n] - 2 * nWien, chnls, nWien, kWien);
                 if(LF_dn_pct >= (100.0f * (float)(nb_threads)))
                 {
                     for(unsigned st_asw = 0; st_asw < st_idx_asw.size(); st_asw++)

@@ -224,6 +224,7 @@ float LF_denoised_percent(
 ,   std::vector<unsigned> &LF_SAI_mask
 ,   const unsigned width
 ,   const unsigned height
+,	const unsigned chnls
 ,   const unsigned N
 ,   const unsigned kHW
 );

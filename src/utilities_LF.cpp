@@ -963,30 +963,33 @@ int compute_LF_estimate(
  * @return none.
  **/
 float LF_denoised_percent(
-    vector<vector<float> > LF_basic_den
-,   vector<unsigned> &LF_SAI_mask
-,   const unsigned width
-,   const unsigned height
-,   const unsigned N
-,   const unsigned kHW
+	vector<vector<float> > LF_basic_den
+	, vector<unsigned> &LF_SAI_mask
+	, const unsigned width
+	, const unsigned height
+	, const unsigned chnls
+	, const unsigned N
+	, const unsigned kHW
 )
 {
-    const unsigned w_b = width  + 2 * N;
-    const unsigned h_b = height + 2 * N;
+	const unsigned w_b = width + 2 * N;
+	const unsigned h_b = height + 2 * N;
 
-    float LF_dn_count = 0.0;
-    const unsigned dc_b = N * w_b + N;
-    const unsigned dc_c = w_b * h_b;
-    for(unsigned st = 0; st < LF_basic_den.size(); st++)
-        if(LF_SAI_mask[st])
-            for (unsigned i = 0; i < (height - kHW + 1); i++)
-                for (unsigned j = 0; j < (width - kHW + 1) ; j++)
-                    if(LF_basic_den[st][dc_b + i * w_b + j + 0 * dc_c] > 0.0
-                    || LF_basic_den[st][dc_b + i * w_b + j + 1 * dc_c] > 0.0
-                    || LF_basic_den[st][dc_b + i * w_b + j + 2 * dc_c] > 0.0)
-                        LF_dn_count++;
+	float LF_dn_count = 0.0;
+	const unsigned dc_b = N * w_b + N;
+	const unsigned dc_c = w_b * h_b;
+	for (unsigned st = 0; st < LF_basic_den.size(); st++)
+		if (LF_SAI_mask[st])
+			for (unsigned i = 0; i < (height - kHW + 1); i++)
+				for (unsigned j = 0; j < (width - kHW + 1); j++)
+					for (unsigned c = 0; c < chnls; c++)
+						if (LF_basic_den[st][dc_b + i * w_b + j + c * dc_c] > 0.0)
+						{
+							LF_dn_count++;
+							continue;
+						}
 
-    return LF_dn_count * 100.0f / (float) count(LF_SAI_mask.begin(), LF_SAI_mask.end(), 1) / (float) (height - kHW + 1) / (float) (width - kHW + 1);
+	return LF_dn_count * 100.0f / (float)count(LF_SAI_mask.begin(), LF_SAI_mask.end(), 1) / (float)(height - kHW + 1) / (float)(width - kHW + 1);
 }
 
 /**
