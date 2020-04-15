@@ -37,7 +37,7 @@ This code requires the libpng library and the fftw library. On Ubuntu run `apt-g
 Instructions to compile the code:
 - Download/clone the repository and go to the corresponding directory.
 - Create a build directory and cd into it, e.g. run: `mkdir build && cd build`.
-- Run cmake: `cmake ..`.
+- Run cmake: `cmake ..`. ( You might want to add the options similar to `-G "Visual Studio 15 2017 Win64"` on Windows 64).
 - On Unix/Linux/Mac OS, run: `make`. On Windows 10 run the BM5DProject.sln and compile with Visual Studio. This generates two executables named LFBM5Ddenoising and LFBM3Ddenoising (.exe on Windows).
 
 ## Testing

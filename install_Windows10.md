@@ -23,7 +23,7 @@ To compile the 'zlib' and 'libpng' projects, you might have to change compilatio
 	
 4) Finally, in src/CMakeLists.txt, add the path to the libpng directory lines 35 and 101, e.g. "C:/path/to/lpng1636". In addition, add the path to the .lib lines 56, 57, 1221 and 123, e.g. "C:/path/to/lpng1636/projects/vstudio/x64/Release Library/libpng16.lib" and "C:/path/to/lpng1636/projects/vstudio/x64/Release Library/zlib.lib"
 
-### Usage
+## Usage
 You will have to copy libfftw3f-3.dll in the same folder as your executable.
 	
 	
