@@ -22,7 +22,7 @@ for t = 1:aheight
         
         % Generate LR
         ILR = IHR;
-        for ch = 1:3
+        for ch = 1:size(IHR,3)
             % Blur the image using the NCSR code
             ILR(:,:,ch) = blur('fwd', IHR(:,:,ch), psf);
         end

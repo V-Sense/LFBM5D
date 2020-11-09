@@ -673,7 +673,6 @@ int run_bm5d_1st_step(
                         }
                     }
                 }
-
                 countProcSAI_asw = count(procSAI_asw.begin(), procSAI_asw.end(), 0);
             }
 
@@ -1292,7 +1291,7 @@ int run_bm5d_2nd_step(
                 }
                 else //! Process the SAI with the most pixels to denoised
                 {
-                    int countNoisyPix = -1;
+					int countNoisyPix = -1;
                     #pragma omp parallel for
                     for(int st = 0; st < (asize_sw * asize_sw); st++)
                     {
@@ -1345,13 +1344,13 @@ int run_bm5d_2nd_step(
                 cout << " done in " << step2_st_elapsed_secs << " secs. (BM average time = " << avg_BM_elapsed_secs << " secs)" << endl;
 
                 //! Update subdivision
-                undivide_LF(LF_sub_denoised_den_asw, LF_sub_denoised_num_asw, LF_denoised_den_asw, LF_denoised_num_asw, LF_SAI_mask_asw,
+				undivide_LF(LF_sub_denoised_den_asw, LF_sub_denoised_num_asw, LF_denoised_den_asw, LF_denoised_num_asw, LF_SAI_mask_asw,
                             asize_sw, asize_sw, width, height, chnls, nWien);
                 sub_divide_LF(LF_denoised_den_asw, LF_SAI_mask_asw, LF_sub_denoised_den_asw, w_table, h_table, asize_sw, asize_sw, width, height, chnls, nWien);
                 sub_divide_LF(LF_denoised_num_asw, LF_SAI_mask_asw, LF_sub_denoised_num_asw, w_table, h_table, asize_sw, asize_sw, width, height, chnls, nWien);
 
                 //! Update non-processed SAIs count
-                procSAI_asw[pst_asw] += 1;
+				procSAI_asw[pst_asw] += 1;
                 unsigned st;
                 if(ang_major==ROWMAJOR)
                     st     = (min_s_asw + ps_asw) * awidth + (min_t_asw + pt_asw);
@@ -1360,7 +1359,7 @@ int run_bm5d_2nd_step(
                 procSAI[st] += 1;
 
                 //! Break loop if all SAIs in search window are denoised
-                float LF_dn_pct = 0.0f;
+				float LF_dn_pct = 0.0f;
                 #pragma omp parallel for
                 for (int n = 0; n < nb_threads; n++)
                     LF_dn_pct += LF_denoised_percent(LF_sub_denoised_den_asw[n], LF_SAI_mask_asw, w_table[n] - 2 * nWien, h_table[n] - 2 * nWien, chnls, nWien, kWien);
@@ -1376,7 +1375,6 @@ int run_bm5d_2nd_step(
                         }
                     }
                 }
-
                 countProcSAI_asw = count(procSAI_asw.begin(), procSAI_asw.end(), 0);
             }
 

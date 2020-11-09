@@ -23,6 +23,6 @@ BM5DSR(pathRef, pathIn, pathOut, aheight, awidth, s_start, t_start, sub_img_name
 %% No ground truth
 % Use the function below to super-resolve light fields with unknown high
 % resolution
-% The functions getParams() and script generateDatasetSR may hve to be
+% The functions getParams() and script generateDatasetSR may have to be
 % updated accordingly
 % BM5DSR_no_GT(pathIn, pathOut, aheight, awidth, s_start, t_start, sub_img_name, sep, factor, psf, bc)

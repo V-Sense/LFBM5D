@@ -198,7 +198,7 @@ for it = 1:numIt
             % Blurring
             IBM5D = double(ZBM5D{t, s});
             IBM5DLR = IBM5D;
-            for ch = 1:3
+            for ch = 1:size(IBM5D,3)
                 % Blur the image using the NCSR code
                 IBM5DLR(:,:,ch) = blur('fwd', IBM5D(:,:,ch), psf);
             end
